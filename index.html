@@ -29,64 +29,55 @@
     a:hover{text-decoration:underline}
 
     /* --- Header / brand --- */
-    .site{
-      max-width:1200px; margin:0 auto; padding:24px; 
-    }
-    header{
-      display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px;
-    }
-    .brand{display:flex; align-items:center; gap:12px}
-  .logo{width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg,#5f7cff,#86f); box-shadow:var(--shadow); overflow:hidden}
-  .logo img{display:block; width:100%; height:100%; object-fit:cover; border-radius:inherit}
-    .title{font-weight:700; letter-spacing:.2px}
-    .subtitle{color:var(--muted); font-size:.92rem}
+    .site{ max-width:1200px; margin:0 auto; padding:24px; }
+    header{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
+    .brand{ display:flex; align-items:center; gap:12px }
+    .logo{ width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg,#5f7cff,#86f); box-shadow:var(--shadow); overflow:hidden }
+    .logo img{ display:block; width:100%; height:100%; object-fit:cover; border-radius:inherit }
+    .title{ font-weight:700; letter-spacing:.2px }
+    .subtitle{ color:var(--muted); font-size:.92rem }
 
     /* --- Responsive gallery grid --- */
-    .grid{
-      display:grid; gap:var(--gap);
-      grid-template-columns: repeat(1, minmax(0,1fr));
-    }
+    .grid{ display:grid; gap:var(--gap); grid-template-columns: repeat(1, minmax(0,1fr)); }
     @media (min-width:520px){ .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
     @media (min-width:880px){ .grid{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
     @media (min-width:1120px){ .grid{ grid-template-columns: repeat(4, minmax(0,1fr)); } }
 
-    .tile{
-      position:relative; overflow:hidden; border-radius:var(--radius);
-      background:var(--card); box-shadow:var(--shadow); isolation:isolate;
+    .tile{ position:relative; overflow:hidden; border-radius:var(--radius); background:var(--card); box-shadow:var(--shadow); isolation:isolate; }
+    .tile img{ display:block; width:100%; height:100%; object-fit:cover }
+
+    /* Hero/cover: use the image's own aspect; fill nicely without needing lightbox */
+    .tile.hero{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      max-height:90vh;
+      background:var(--card);
     }
-    .tile picture, .tile img{display:block; width:100%; height:100%; object-fit:cover}
-  /* Hero/cover tile: limit height so very tall images don't overflow the viewport.
-    For portrait (Instagram-sized) images we allow the image to fill the tile and
-    center/crop if necessary so the featured work is visible without opening the lightbox. */
-  .tile.hero{ max-height:80vh; display:block; }
-  .tile.hero picture, .tile.hero img{ width:100%; height:100%; object-fit:cover; object-position:center; }
-    .tile .meta{
-      position:absolute; inset:auto 10px 10px 10px; 
-      background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(8,10,14,.7) 60%, rgba(8,10,14,.9) 100%);
-      padding:40px 10px 10px; border-radius:12px; color:#fff;
-      transform:translateY(8px); opacity:.0; transition:all .25s ease;
+    .tile.hero img{
+      width:auto;
+      height:auto;
+      max-width:100%;
+      max-height:90vh;
+      object-fit:contain;
     }
-    .tile:hover .meta{opacity:1; transform:translateY(0)}
-    .meta .label{font-size:.82rem; color:#cfd5e2}
-    .meta .name{font-weight:600}
+
+    .tile .meta{ position:absolute; inset:auto 10px 10px 10px; background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(8,10,14,.7) 60%, rgba(8,10,14,.9) 100%); padding:40px 10px 10px; border-radius:12px; color:#fff; transform:translateY(8px); opacity:0; transition:all .25s ease; }
+    .tile:hover .meta{ opacity:1; transform:translateY(0) }
+    .meta .label{ font-size:.82rem; color:#cfd5e2 }
+    .meta .name{ font-weight:600 }
 
     /* --- Dialog (lightbox) --- */
-    dialog#lightbox{ 
-      width: min(92vw, 1200px); border:0; padding:0; background:transparent; 
-    }
-    dialog::backdrop{background:rgba(6,8,12,.7)}
+    dialog#lightbox{ width:min(92vw, 1200px); border:0; padding:0; background:transparent; }
+    dialog::backdrop{ background:rgba(6,8,12,.7) }
     .lightbox-inner{ position:relative; }
     .lightbox-img{ width:100%; height:auto; display:block; border-radius:12px; max-height:90vh; object-fit:contain; }
     .lightbox-caption{ display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 2px; color:var(--muted); font-size:.92rem }
     .actions{ position:absolute; inset:0; display:flex; justify-content:space-between; align-items:center; padding:8px }
-    .btn{
-      background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.15); color:#fff;
-      padding:10px 12px; border-radius:12px; cursor:pointer; backdrop-filter:blur(6px);
-    }
+    .btn{ background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.15); color:#fff; padding:10px 12px; border-radius:12px; cursor:pointer; backdrop-filter:blur(6px); }
     .btn:hover{ background:rgba(0,0,0,.6) }
     .sr-only{ position:absolute; width:1px; height:1px; clip:rect(0 0 0 0); overflow:hidden; white-space:nowrap }
 
-    /* --- Footer --- */
     footer{ color:var(--muted); text-align:center; margin:28px 0 8px }
   </style>
 </head>
@@ -111,66 +102,45 @@
       </nav>
     </header>
 
-    <!-- Cover / hero (optional) -->
-  <div class="tile hero" style="margin-bottom:var(--gap)">
-      <picture>
-        <!-- Example responsive sources; replace with your images -->
-        <source type="image/avif" srcset="images/cover.avif" />
-        <source type="image/webp" srcset="images/cover.webp" />
-        <img src="images/cover.jpg" alt="Cover image of your featured work" loading="eager" />
-      </picture>
+    <!-- Cover / hero (JPG only to avoid missing source issues) -->
+    <div class="tile hero" style="margin-bottom:var(--gap)">
+      <img src="images/coming-soon.jpg" alt="Coming soon: Stay tuned for updates" loading="eager" />
       <div class="meta">
         <div class="label">Featured</div>
-        <div class="name">Project Title / Year</div>
+        <div class="name">Khara / 2025</div>
       </div>
     </div>
 
     <!-- Gallery Grid -->
     <main class="grid" id="gallery">
 
-      <!-- Example tile -->
-      <figure class="tile" data-name="Coming Soon" data-label="Project" data-full="images/coming-soon.jpg" style="aspect-ratio: 4/5">
-        <picture>
-          <source type="image/avif" srcset="images/coming-soon.avif" />
-          <source type="image/webp" srcset="images/coming-soon.webp" />
-          <img src="images/coming-soon.jpg" alt="Coming soon: new work" loading="lazy" />
-        </picture>
+      <!-- Example tile (JPG only) -->
+      <figure class="tile" data-name="Main Character" data-label="Project" data-full="images/character.jpg" style="aspect-ratio: 1/1">
+        <img src="images/character.jpg" alt="The Main Character: Mannequin" loading="lazy" />
         <figcaption class="meta">
           <div class="label">Project</div>
-          <div class="name">Coming Soon</div>
+          <div class="name">Main Character</div>
         </figcaption>
       </figure>
 
-      <figure class="tile" data-name="Sculpture" data-label="Art" data-full="images/sculpture@2x.jpg" style="aspect-ratio: 1/1">
-        <picture>
-          <source type="image/avif" srcset="images/sculpture.avif" />
-          <source type="image/webp" srcset="images/sculpture.webp" />
-          <img src="images/sculpture.jpg" alt="Stone sculpture on plinth" loading="lazy" />
-        </picture>
+      <figure class="tile" data-name="Sculpture" data-label="Art" data-full="images/sculpture.jpg" style="aspect-ratio: 1/1">
+        <img src="images/sculpture.jpg" alt="Stone sculpture on plinth" loading="lazy" />
         <figcaption class="meta">
           <div class="label">Art</div>
           <div class="name">Sculpture</div>
         </figcaption>
       </figure>
 
-      <figure class="tile" data-name="Editorial Spread" data-label="Print" data-full="images/magazine@2x.jpg" style="aspect-ratio: 3/2">
-        <picture>
-          <source type="image/avif" srcset="images/magazine.avif" />
-          <source type="image/webp" srcset="images/magazine.webp" />
-          <img src="images/magazine.jpg" alt="Editorial magazine spread on desk" loading="lazy" />
-        </picture>
+      <figure class="tile" data-name="Editorial Spread" data-label="Print" data-full="images/magazine.jpg" style="aspect-ratio: 3/2">
+        <img src="images/magazine.jpg" alt="Editorial magazine spread on desk" loading="lazy" />
         <figcaption class="meta">
           <div class="label">Print</div>
           <div class="name">Editorial Spread</div>
         </figcaption>
       </figure>
 
-      <figure class="tile" data-name="Brand Poster" data-label="Graphic" data-full="images/poster@2x.jpg" style="aspect-ratio: 2/3">
-        <picture>
-          <source type="image/avif" srcset="images/poster.avif" />
-          <source type="image/webp" srcset="images/poster.webp" />
-          <img src="images/poster.jpg" alt="Vibrant brand poster with typographic layout" loading="lazy" />
-        </picture>
+      <figure class="tile" data-name="Brand Poster" data-label="Graphic" data-full="images/poster.jpg" style="aspect-ratio: 2/3">
+        <img src="images/poster.jpg" alt="Vibrant brand poster with typographic layout" loading="lazy" />
         <figcaption class="meta">
           <div class="label">Graphic</div>
           <div class="name">Brand Poster</div>
@@ -182,7 +152,7 @@
     </main>
 
     <footer>
-      © <span id="year"></span> ENaam Dirani Atelier — All rights reserved.
+      © <span id="year"></span> Enaam Dirani Atelier — All rights reserved.
     </footer>
   </div>
 
@@ -221,11 +191,11 @@
     function openAt(index){
       i = index;
       const el = tiles[i];
-      const full = el.getAttribute('data-full');
+      const src = el.querySelector('img').getAttribute('src');
       const alt = el.querySelector('img').getAttribute('alt') || '';
       const n = el.getAttribute('data-name') || '';
       const l = el.getAttribute('data-label') || '';
-      img.src = full || el.querySelector('img').src; // Fallback to displayed src
+      img.src = src; // display the same JPG in the lightbox
       img.alt = alt;
       name.textContent = n;
       label.textContent = l;
