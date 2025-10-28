@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Name — Portfolio</title>
+  <title>EDA — Portfolio</title>
   <meta name="description" content="A clean, image‑only portfolio showcasing selected works." />
   <link rel="preload" as="image" href="images/cover.jpg" />
   <style>
@@ -55,9 +55,11 @@
       background:var(--card); box-shadow:var(--shadow); isolation:isolate;
     }
     .tile picture, .tile img{display:block; width:100%; height:100%; object-fit:cover}
-  /* Hero/cover tile: limit height so very tall images don't overflow the viewport */
-  .tile.hero{ max-height:80vh; aspect-ratio:auto; }
-  .tile.hero picture, .tile.hero img{ height:auto; object-fit:contain; }
+  /* Hero/cover tile: limit height so very tall images don't overflow the viewport.
+    For portrait (Instagram-sized) images we allow the image to fill the tile and
+    center/crop if necessary so the featured work is visible without opening the lightbox. */
+  .tile.hero{ max-height:80vh; display:block; }
+  .tile.hero picture, .tile.hero img{ width:100%; height:100%; object-fit:cover; object-position:center; }
     .tile .meta{
       position:absolute; inset:auto 10px 10px 10px; 
       background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(8,10,14,.7) 60%, rgba(8,10,14,.9) 100%);
@@ -110,7 +112,7 @@
     </header>
 
     <!-- Cover / hero (optional) -->
-    <div class="tile hero" style="aspect-ratio: 16 / 7; margin-bottom:var(--gap)">
+  <div class="tile hero" style="margin-bottom:var(--gap)">
       <picture>
         <!-- Example responsive sources; replace with your images -->
         <source type="image/avif" srcset="images/cover.avif" />
@@ -127,15 +129,15 @@
     <main class="grid" id="gallery">
 
       <!-- Example tile -->
-      <figure class="tile" data-name="Minimal Chair" data-label="Product" data-full="images/chair@2x.jpg" style="aspect-ratio: 4/5">
+      <figure class="tile" data-name="Coming Soon" data-label="Project" data-full="images/Coming_Soon@2x.jpg" style="aspect-ratio: 4/5">
         <picture>
-          <source type="image/avif" srcset="images/chair.avif" />
-          <source type="image/webp" srcset="images/chair.webp" />
-          <img src="images/chair.jpg" alt="Minimal wooden chair on neutral backdrop" loading="lazy" />
+          <source type="image/avif" srcset="images/Coming_Soon.avif" />
+          <source type="image/webp" srcset="images/Coming_Soon.webp" />
+          <img src="images/Coming_Soon.jpg" alt="Coming soon: new work" loading="lazy" />
         </picture>
         <figcaption class="meta">
-          <div class="label">Product</div>
-          <div class="name">Minimal Chair</div>
+          <div class="label">Project</div>
+          <div class="name">Coming Soon</div>
         </figcaption>
       </figure>
 
